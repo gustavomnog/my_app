@@ -34,7 +34,6 @@ const Customers = () => {
 
   return (
     <>
-      <h1>Clientes</h1>
       <Grid container>
         {
           customers.map(customer => (
