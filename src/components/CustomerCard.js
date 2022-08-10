@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const CustomerCard = ({id, avatar, name, lastname, email, className, onRemoveCustomer}) => {
+const CustomerCard = ({id, avatar, name, lastname, email, className, onRemoveCustomer, onEditCustomer }) => {
   const classes = useStyles()
 
   const [openModal, setOpenModal] = useState(false)
@@ -38,6 +38,10 @@ const CustomerCard = ({id, avatar, name, lastname, email, className, onRemoveCus
   const handleRemoveCustomer = () => {
     handleToggleOpenModal()
   }
+
+  const handleEditCustomer = id => {
+    onEditCustomer(id)
+  }
   return (
     <>
       <Card className={classNames(className, classes.root)}>
@@ -51,7 +55,7 @@ const CustomerCard = ({id, avatar, name, lastname, email, className, onRemoveCus
           subheader={email}
         />
         <CardActions disableSpacing>
-          <IconButton aria-label="editar cadastro">
+          <IconButton aria-label="editar cadastro" onClick={() => handleEditCustomer(id)}>
             <EditIcon />
           </IconButton>
           <IconButton aria-label="remover cadastro" onClick={() => handleRemoveCustomer()}>
@@ -66,7 +70,7 @@ const CustomerCard = ({id, avatar, name, lastname, email, className, onRemoveCus
       title='Deseja realmente excluir este cadastro?'
       message='Ao confirmar não será possível reverter esta operação.'
       />
-    </>
+    </> 
   )
 }
 
