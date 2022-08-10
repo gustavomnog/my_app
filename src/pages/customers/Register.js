@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
+import Toasty from '../../components/Toasty'
+
 import { TextField, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -25,6 +27,10 @@ const Register = () => {
     },
   })
 
+  const [openToasty, setOpenToasty] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -38,6 +44,7 @@ const Register = () => {
   }
 
   const handleRegisterButton = () => {
+    setIsLoading(true)
     let hasError = false
     let newFormState = {
       ...form,
@@ -68,8 +75,9 @@ const Register = () => {
     axios.post('https://reqres.in/api/users', {
       name: form.name.value,
       job: form.job.value
-    }).then(response => {
-      console.log('OK', response)
+    }).then(() => {
+      setOpenToasty(true)
+      setIsLoading(false)
     })
   }
 
@@ -95,10 +103,15 @@ const Register = () => {
         />
       </div>
       <div className={classes.wrapper}>
-        <Button size="small" variant="contained" color="primary" onClick={handleRegisterButton}>
-          Cadastrar
+        <Button size="small" variant="contained" color="primary" onClick={handleRegisterButton} disabled={isLoading}>
+          {isLoading ? 'Aguarde...' : 'Cadastrar'}
         </Button>
       </div>
+      <Toasty 
+      onClose={() => setOpenToasty(false)}
+      open={openToasty} 
+      severity="success" 
+      text="Cadastro realizado com Sucesso!" />
     </>
   )
 }
