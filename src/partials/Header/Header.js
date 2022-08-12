@@ -12,7 +12,7 @@ import {
   ListItemText
 } from '@material-ui/core'
 
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import MenuIcon from '@material-ui/icons/Menu'
 import HomeIcon from '@material-ui/icons/Home'
@@ -21,20 +21,20 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd'
 import useStyles from './Header.style'
 
 
-const Header = () => {
+const Header = ({ user }) => {
   const classes = useStyles()
   const history = useHistory()
 
-const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
-const handleToggleMenu = () => {
-  setMenuOpen(!menuOpen)
-}
+  const handleToggleMenu = () => {
+    setMenuOpen(!menuOpen)
+  }
 
-const handleMenuClick = route =>{
-  history.push(route)
-  handleToggleMenu()
-}
+  const handleMenuClick = route => {
+    history.push(route)
+    handleToggleMenu()
+  }
 
   return (
     <>
@@ -46,7 +46,11 @@ const handleMenuClick = route =>{
           <Typography variant="h6" className={classes.title}>
             My App
           </Typography>
-          <Button color="inherit">Login</Button>
+          {
+            user.logged
+              ? <Typography variant="h6">{user.email}</Typography>
+              : <Button color="inherit">Login</Button>
+          }
         </Toolbar>
       </AppBar>
       <Drawer open={menuOpen} onClose={() => handleToggleMenu()}>
